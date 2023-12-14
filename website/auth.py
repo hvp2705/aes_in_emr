@@ -10,8 +10,8 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('auth.login'))
+    # return redirect(url_for('auth.login'))
+    pass
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
@@ -42,6 +42,6 @@ def sign_up():
 
 @auth.route('/medical-record', methods=['GET', 'POST'])
 def medical_record():
-    data= request.form
-    print(data)
+    # data= request.form
+    # print(data)
     return render_template("medical_record.html") 
