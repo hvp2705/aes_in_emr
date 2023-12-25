@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+{% block title %}View page{% endblock %}
+
+{% block content %}
+<h1>Welcome</h1>
+<div class="container">
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+        <a class="navbar-brand">Search patient</a>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        </div>
+    </nav>
+    <table class="table table-dark table-borderless">
+        <tr>
+            <th scope="col">Patient ID</th>
+            <th scope="col">Patient Name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Last update</th>
+            <th scope="col">Atcion</th>
+        </tr>
+    </table>
+</div>
+{% endblock %}
