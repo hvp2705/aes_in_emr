@@ -1,10 +1,9 @@
 {% extends "base.html" %} 
 {% block title %}Home page{% endblock %}
 
-{% block content %}
-<h1>Welcome</h1>
-<div>
-    <a class="btn btn-primary" id="medical_record" href="/medical-record" role="button">Enter Information</a>
-    <a class="btn btn-primary" id="medical_record" href="/medical-record-view" role="button">View Information</a>
-</div>
+{% block sidebar %}
+<link rel="stylesheet" href="../static/css/home.css">
+<h1>Welcome to the Electronic Medical Records Management System</h1>
+<p>Manage your health records efficiently and securely.</p>
+
 {% endblock %}

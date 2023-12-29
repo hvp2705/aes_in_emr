@@ -17,3 +17,31 @@
   ::-webkit-scrollbar-thumb:hover {
         background: #555; 
   }
+
+#side_nav{
+      background: black;
+      min-width: 250px;
+      max-width: 250px;
+      height: 100vh;
+}
+
+.content{
+      width: 100%;
+      min-height: 100vh;
+}
+hr.h-color{
+      background: #eee;
+}
+
+.sidebar li.active{
+      background: #333;
+      border-radius: 8px;
+}
+
+.sidebar li.active a, .sidebar li a:hover{
+      color: black;
+}
+
+.sidebar li a{
+      color: white;
+}
