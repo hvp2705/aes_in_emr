@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Doctor page{% endblock %}
+
+{% block doctor_content %}
+<h1>Welcome to the Doctor's page</h1>
+<h3>Personal Information</h3>
+<form method="POST">
+    <div class="form-group">
+        <label for="patient_name">Dotor Name</label>
+        <input type="text" class="form-control" name="patient_name" id="patient_name">
+    </div>
+    
+</form>
+{% endblock %}
