@@ -1,5 +1,5 @@
 from .. import db
-from sqlalchemy.sql import func # for date func.now()
+from flask_admin.contrib.sqla import ModelView
 
 class MedicalRecord(db.Model):
     __tablename__ = 'medical_record'
@@ -12,5 +12,14 @@ class MedicalRecord(db.Model):
     disease_history = db.Column(db.Text)
     drug_sensitive = db.Column(db.Text)
     doctor_name = db.Column(db.String(150))
-    doctor_phone = db.Column(db.String(20))
-    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
+    patient = db.relationship('Patient', back_populates='medical_records')
+
+class MedicalRecordView(ModelView):
+    form_columns = ['patient', 
+                    'blood_type', 
+                    'blood_pressure', 
+                    'weight', 
+                    'height', 
+                    'disease_history', 
+                    'drug_sensitive', 
+                    'doctor_name']

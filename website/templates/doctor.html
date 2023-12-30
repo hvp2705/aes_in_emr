@@ -13,7 +13,7 @@
         <label for="doctor_dob">Date of birth</label>
         <input type="date" name="doctor_dob" id="doctor_dob">
         <label for="gender">Gender</label>
-        <select>
+        <select name="gender" id="gender">
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
@@ -29,5 +29,7 @@
         <label for="email">Email</label>
         <input type="email" name="email" id="email">
     </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}

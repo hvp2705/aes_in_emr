@@ -21,12 +21,12 @@
             <th scope="col">Last update</th>
             <th scope="col">Action</th>
         </tr>
-        {% for patient in patients %}
+        {% for row in patients %}
         <tr>
-            <td>{{ patient.id }}</td>
-            <td>{{ patient.patient_name }}</td>
-            <td>{{ patient.phone }}</td>
-            <td>{{ patient.updated_at }} <!-- Replace with the actual field name for the last update timestamp --></td>
+            <td>{{ row.id }}</td>
+            <td>{{ row.patient_name }}</td>
+            <td>{{ row.phone }}</td>
+            <td>..................</td>
             <td>
                 <a href="#">View Details</a>
             </td>
