@@ -2,6 +2,7 @@ import re
 import string
 import secrets
 from . import db
+from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
@@ -148,6 +149,14 @@ def medical_record():
         health_insurance_number = request.form.get('health_insurance_number')
         marital_status = request.form.get('marital_status')
         occupation = request.form.get('occupation')
+
+        # Check if patient_dob is not empty
+        if patient_dob:
+    # Convert patient_dob to a date
+            patient_dob = datetime.strptime(patient_dob, '%Y-%m-%d')  # Adjust the format string according to your input
+        else:
+            patient_dob = None  # Or set a default date
+
 
         #Patient table
         new_patient = Patient(patient_name=patient_name, 
