@@ -21,6 +21,17 @@
             <th scope="col">Last update</th>
             <th scope="col">Atcion</th>
         </tr>
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient.id }}</td>
+            <td>{{ patient.patient_name }}</td>
+            <td>{{ patient.phone }}</td>
+            <td>{{ patient.updated_at }} <!-- Replace with the actual field name for the last update timestamp --></td>
+            <td>
+                <a href="#">View Details</a>
+            </td>
+        </tr>
+        {% endfor %}
     </table>
 </div>
 {% endblock %}

@@ -20,10 +20,14 @@
                 </div>
                 <ul class="list-unstyled px-2">
                         <li class=""><a href="/" class="text-decoration-none" id="home"><i class="fal fa-home"></i>Home</a></li>
+                        {% if 'doctor' in current_user.roles|map(attribute='name')|list %}
                         <li class=""><a href="/medical-record" class="text-decoration-none" id="medical_record"><i class="fas fa-file-medical"></i>Enter new record</a></li>
                         <li class=""><a href="/medical-record-view" class="text-decoration-none" id="medical-record-view"><i class="fas fa-database"></i></i>View Existing Records</a></li>
-                        <li class=""><a href="#" class="text-decoration-none"><i class="fas fa-hospital-user"></i>Manage Patients</a></li>
+                        {% else %}
+                        <li class=""><a href="/medical-record-view" class="text-decoration-none" id="medical-record-view"><i class="fas fa-database"></i></i>View Existing Records</a></li>
                         <li class=""><a href="#" class="text-decoration-none"><i class="fas fa-user-md"></i>Manage Doctors</a></li>
+                        <li class=""><a href="#" class="text-decoration-none"><i class="fas fa-hospital-user"></i>Manage Patients</a></li>
+                        {% endif %}
                 </ul>
                 <ul class="list-unstyled px-2">
                         <li class=""><a href="/logout" class="text-decoration-none" id="logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>

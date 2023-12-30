@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from .models.models import User, Role
+from .models.patient import Patient
 
 auth = Blueprint('auth', __name__)
 
@@ -23,8 +24,8 @@ def login():
                     # Redirect based on user role
                 if 'doctor' in [role.name for role in user.roles]:
                     return redirect(url_for('doctor_dashboard'))
-                elif 'patient' in [role.name for role in user.roles]:
-                    return redirect(url_for('patient_dashboard'))
+                # elif 'patient' in [role.name for role in user.roles]:
+                    # return redirect(url_for('patient_dashboard'))
                 else:
                     # Handle other roles or a default view
                     return redirect(url_for('views.home'))
@@ -86,11 +87,11 @@ def doctor_dashboard():
 
     return render_template('doctor.html', user=current_user)
 
-@auth.route('/patient-dashboard')
+""" @auth.route('/patient-dashboard')
 @login_required
 def patient_dashboard():
 
-    return render_template('patient.html', user=current_user)
+    return render_template('patient.html', user=current_user) """
 
 @auth.route('/medical-record', methods=['GET', 'POST'])
 def medical_record():
@@ -100,6 +101,7 @@ def medical_record():
 
 @auth.route('/medical-record-view', methods=['GET', 'POST'])
 def medical_record_view():
+    patients = Patient.query.all()
     # data= request.form
     # print(data)
-    return render_template("medical_record_view.html", user=current_user)
+    return render_template("medical_record_view.html", patients=patients, user=current_user)

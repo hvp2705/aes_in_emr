@@ -2,7 +2,9 @@ from .. import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func # for date func.now()
 from .medicals_record import MedicalRecord
-from .. import encrypt_data, decrypt_data
+from .patient import Patient
+from .doctor import Doctor
+#from .. import encrypt_data, decrypt_data
 
 # create table in database for assigning roles
 roles_users = db.Table('roles_users',
@@ -22,15 +24,15 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
-
-    #medical_records = db.relationship('MedicalRecord') # this is a list of medical records
+    doctors = db.relationship('Doctor', backref='user', lazy='dynamic')
     
     """ def __init__(self, email, password):
         self.email = email
         self.password = password """
     # posts = db.relationship('Post', backref='user', lazy=True)
-    def set_sensitive_data(self, key, sensitive_data):
+
+""" def set_sensitive_data(self, key, sensitive_data):
         self.encrypted_data = encrypt_data(key, sensitive_data)
 
     def get_sensitive_data(self, key):
-        return decrypt_data(key, self.encrypted_data)
+        return decrypt_data(key, self.encrypted_data) """
