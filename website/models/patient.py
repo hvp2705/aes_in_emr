@@ -10,7 +10,7 @@ class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
     patient_name = db.Column(db.String(150))
-    date_of_birth = db.Column(db.Date)
+    patient_dob = db.Column(db.Date)
     gender = db.Column(db.String(10))
     address = db.Column(db.String(255))
     phone = db.Column(db.String(20))
