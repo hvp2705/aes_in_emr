@@ -9,7 +9,6 @@ from .models.models import User
 from .models.patient import Patient
 from .models.doctor import Doctor
 from .models.medicals_record import MedicalRecord
-from .static import encrypt_data, decrypt_data
 
 auth = Blueprint('auth', __name__)
 
@@ -131,13 +130,40 @@ def medical_record():
         disease_history = request.form.get('disease_history')
         drug_sensitive = request.form.get('drug_sensitive')
 
+        #Medical record table
         new_medical_record = MedicalRecord(blood_type=blood_type, 
                                            blood_pressure=blood_pressure, 
                                            weight=weight, height=height, 
                                            disease_history=disease_history, 
                                            drug_sensitive=drug_sensitive)
         db.session.add(new_medical_record)
+
+        patient_name = request.form.get('patient_name')
+        patient_dob = request.form.get('patient_dob')
+        gender = request.form.get('gender')
+        address = request.form.get('address')
+        phone = request.form.get('phone')
+        email = request.form.get('email')
+        social_security_number = request.form.get('social_security_number')
+        health_insurance_number = request.form.get('health_insurance_number')
+        marital_status = request.form.get('marital_status')
+        occupation = request.form.get('occupation')
+
+        #Patient table
+        new_patient = Patient(patient_name=patient_name, 
+                              patient_dob=patient_dob, 
+                              gender=gender, 
+                              address=address, 
+                              phone=phone, 
+                              email=email, 
+                              social_security_number=social_security_number, 
+                              health_insurance_number=health_insurance_number, 
+                              marital_status=marital_status, 
+                              occupation=occupation)
+        db.session.add(new_patient)
+
         db.session.commit()
+
         flash('Medical record added!', category='success')
     return render_template("medical_record.html", user=current_user) 
 
