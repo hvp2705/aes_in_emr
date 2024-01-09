@@ -13,4 +13,5 @@ class Doctor(db.Model, UserMixin):
     doctor_dob = db.Column(db.Date)
     doctor_gender = db.Column(db.String(10))
     doctor_phone = db.Column(db.String(20))
+    doctor_address = db.Column(db.String(255))
     doctor_email = db.Column(db.String(150), unique=True)

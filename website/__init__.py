@@ -28,6 +28,26 @@ def create_app():
     
     create_database(app)
 
+    def create_example_user():
+
+        from werkzeug.security import generate_password_hash
+        from .models.models import User
+        
+        with app.app_context():
+            email = 'admin@admin.com'
+            password = 'Pass@123'
+            user = User.query.filter_by(email=email).first()
+            if not user:
+                hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+                user = User(email=email, password=hashed_password)  # Add other required fields
+                db.session.add(user)
+                db.session.commit()
+                print(f'User {email} created')
+            else:
+                print(f'User {email} already exists')
+
+    create_example_user()
+
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login' # redirect to login page if not logged in
     login_manager.init_app(app)

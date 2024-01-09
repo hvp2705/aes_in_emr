@@ -4,32 +4,119 @@
 {% block sidebar %}
 <h1>Welcome to the Doctor's page</h1>
 <h3>Personal Information</h3>
-<form method="POST">
-    <div class="form-group">
-        <label for="doctor_name">Dotor Name</label>
-        <input type="text" class="form-control" name="doctor_name" id="doctor_name">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDoctor">
+    Add doctor
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="addDoctor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addDoctorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addDoctorLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="doctor_name">Dotor Name</label>
+                    <input type="text" class="form-control" name="doctor_name" id="doctor_name">
+                </div>
+                <div class="form-group">
+                    <label for="doctor_dob">Date of birth</label>
+                    <input type="date" name="doctor_dob" id="doctor_dob">
+                    <label for="gender">Gender</label>
+                    <select name="gender" id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" name="address" id="address">
+                </div>
+                <div class="form-group">
+                    <label for="doctor_phone">Phone</label>
+                    <input type="text" name="doctor_phone" id="doctor_phone">
+                    <label for="doctor_email">Email</label>
+                    <input type="doctor_email" name="doctor_email" id="doctor_email">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-        <label for="doctor_dob">Date of birth</label>
-        <input type="date" name="doctor_dob" id="doctor_dob">
-        <label for="gender">Gender</label>
-        <select name="gender" id="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="address">Address</label>
-        <input type="text" class="form-control" name="address" id="address">
-    </div>
-    <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="number" name="phone" id="phone">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email">
-    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Last update</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for row in doctors %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.doctor_name }}</td>
+                        <td>{{ row.doctor_phone }}</td>
+                        <td>..................</td>
+                        <td>
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDoctor{{row.id}}">
+                            View Details
+                          </button>
+                        </td>
+                    </tr>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="addDoctor{{row.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addDoctorLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="addDoctorLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form method="POST">
+                                  <div class="form-group">
+                                      <label for="doctor_name">Dotor Name</label>
+                                      <input type="text" class="form-control" name="doctor_name" id="doctor_name" value="{{row.doctor_name}}" readonly>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="doctor_dob">Date of birth</label>
+                                      <input type="date" name="doctor_dob" id="doctor_dob" value="{{row.doctor_dob}}" readonly>
+                                      <label for="gender">Gender</label>
+                                      <input name="gender" id="gender" value="{{row.doctor_gender}}" readonly>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="doctor_address">Address</label>
+                                      <input type="text" class="form-control" name="doctor_address" id="doctor_address" value="{{row.doctor_address}}" readonly>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="doctor_phone">Phone</label>
+                                      <input type="text" name="doctor_phone" id="doctor_phone" value="{{row.doctor_phone}}" readonly>
+                                      <label for="doctor_email">Email</label>
+                                      <input type="doctor_email" name="doctor_email" id="doctor_email" value="{{row.doctor_email}}" readonly>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                  </div>
+                              </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
