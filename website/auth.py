@@ -3,6 +3,7 @@ import string
 import secrets
 from . import db
 from datetime import datetime
+import json
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
@@ -10,7 +11,7 @@ from .models.models import User
 from .models.patient import Patient
 from .models.doctor import Doctor
 from .models.medicals_record import MedicalRecord
-
+from .static.algorithm.AES_model_EMR import primefiller, pickrandomprime, setkeys, encrypt, decrypt, encoder, decoder
 auth = Blueprint('auth', __name__)
 
 # Generate a random 32 bytes key for AES-256
@@ -132,6 +133,8 @@ def doctor():
 
 @auth.route('/medical-record', methods=['GET', 'POST'])
 def medical_record():
+    primefiller()
+    setkeys()
     if request.method == 'POST':
         blood_type = request.form.get('blood_type')
         blood_pressure = request.form.get('blood_pressure')
@@ -140,13 +143,26 @@ def medical_record():
         disease_history = request.form.get('disease_history')
         drug_sensitive = request.form.get('drug_sensitive')
 
-        #Medical record table
-        new_medical_record = MedicalRecord(blood_type=blood_type, 
+        encrypted_blood_type = encoder(blood_type)
+        encrypted_blood_pressure = encoder(blood_pressure)
+        encrypted_weight = encoder(weight)
+        encrypted_height = encoder(height)
+        encrypted_disease_history = encoder(disease_history)
+        encrypted_drug_sensitive = encoder(drug_sensitive)
+
+        new_medical_record = MedicalRecord(blood_type=json.dumps(encrypted_blood_type),
+                                    blood_pressure=json.dumps(encrypted_blood_pressure),
+                                    weight=encrypted_weight,height=json.dumps(encrypted_height),                                 
+                                    disease_history=json.dumps(encrypted_disease_history),
+                                    drug_sensitive=json.dumps(encrypted_drug_sensitive))
+        db.session.add(new_medical_record)
+
+        """new_medical_record = MedicalRecord(blood_type=blood_type, 
                                            blood_pressure=blood_pressure, 
                                            weight=weight, height=height, 
                                            disease_history=disease_history, 
                                            drug_sensitive=drug_sensitive)
-        db.session.add(new_medical_record)
+        db.session.add(new_medical_record)"""
 
         patient_name = request.form.get('patient_name')
         patient_dob = request.form.get('patient_dob')
@@ -166,16 +182,21 @@ def medical_record():
         else:
             patient_dob = None  # Or set a default date
 
-
+        encrypted_address = encoder(address)
+        encrypted_phone = encoder(phone)
+        encrypted_email = encoder(email)
+        encrypted_social_security_number = encoder(social_security_number)
+        encrypted_health_insurance_number = encoder(health_insurance_number)
+        
         #Patient table
         new_patient = Patient(patient_name=patient_name, 
                               patient_dob=patient_dob, 
                               gender=gender, 
-                              address=address, 
-                              phone=phone, 
-                              email=email, 
-                              social_security_number=social_security_number, 
-                              health_insurance_number=health_insurance_number, 
+                              address=json.dumps(encrypted_address), 
+                              phone=json.dumps(encrypted_phone), 
+                              email=json.dumps(encrypted_email), 
+                              social_security_number=json.dumps(encrypted_social_security_number), 
+                              health_insurance_number=json.dumps(encrypted_health_insurance_number), 
                               marital_status=marital_status, 
                               occupation=occupation)
         db.session.add(new_patient)
