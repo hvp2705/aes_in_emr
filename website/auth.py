@@ -109,6 +109,13 @@ def doctor():
         doctor_phone = request.form.get('doctor_phone')
         doctor_email = request.form.get('doctor_email')
 
+        # Check if doctor_dob is not empty
+        if doctor_dob:
+        # Convert doctor_dob to a date
+            doctor_dob = datetime.strptime(doctor_dob, '%Y-%m-%d')
+        else:
+            doctor_dob = None
+            
         new_doctor = Doctor(doctor_name=doctor_name, 
                             doctor_dob=doctor_dob, 
                             doctor_gender=doctor_gender, 
@@ -118,8 +125,9 @@ def doctor():
         db.session.commit()
         flash('Doctor added!', category='success')  
 
+    doctors= Doctor.query.all()
 
-    return render_template("doctor.html", user=current_user) 
+    return render_template("doctor.html", user=current_user, doctors=doctors)
 
 @auth.route('/medical-record', methods=['GET', 'POST'])
 def medical_record():
@@ -152,7 +160,7 @@ def medical_record():
 
         # Check if patient_dob is not empty
         if patient_dob:
-    # Convert patient_dob to a date
+        # Convert patient_dob to a date
             patient_dob = datetime.strptime(patient_dob, '%Y-%m-%d')  # Adjust the format string according to your input
         else:
             patient_dob = None  # Or set a default date
@@ -182,3 +190,5 @@ def medical_record_view():
     # data= request.form
     # print(data)
     return render_template("medical_record_view.html", patients=patients, user=current_user)
+
+# admin 

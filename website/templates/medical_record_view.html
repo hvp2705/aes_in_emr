@@ -13,25 +13,36 @@
         </form>
         </div>
     </nav>
-    <table class="table table-dark table-borderless">
-        <tr>
-            <th scope="col">Patient ID</th>
-            <th scope="col">Patient Name</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Last update</th>
-            <th scope="col">Action</th>
-        </tr>
-        {% for row in patients %}
-        <tr>
-            <td>{{ row.id }}</td>
-            <td>{{ row.patient_name }}</td>
-            <td>{{ row.phone }}</td>
-            <td>..................</td>
-            <td>
-                <a href="#">View Details</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="card border-0">
+        <div class="card-header">
+            <h5 class="card-title">
+                Table
+            </h5>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Patient ID</th>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Last update</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in patients %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.patient_name }}</td>
+                        <td>{{ row.phone }}</td>
+                        <td>..................</td>
+                        <td>
+                            <a href="#">View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 </div>
 {% endblock %}

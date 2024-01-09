@@ -1,47 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 /* width */
 ::-webkit-scrollbar {
-        width: 10px;
-  }
+      width: 10px;
+}
   
   /* Track */
-  ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-  }
+::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+}
    
   /* Handle */
-  ::-webkit-scrollbar-thumb {
-        background: #888; 
-  }
+::-webkit-scrollbar-thumb {
+      background: #888; 
+}
   
   /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-        background: #555; 
-  }
-
-#side_nav{
-      background: black;
-      min-width: 250px;
-      max-width: 250px;
-      height: 100vh;
+::-webkit-scrollbar-thumb:hover {
+      background: #555; 
 }
 
-.content{
+*, 
+::before, 
+::after{
+      box-sizing: border-box;
+}
+
+
+body{
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      opacity: 1;
+      overflow-y: scroll;
+      margin: 0;
+}
+
+a{
+      cursor: pointer;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+}
+
+li{
+      list-style: none;
+}
+
+/* Layout for admin dashboard */
+
+.wrapper{
+      align-items: stretch;
+      display: flex;
       width: 100%;
+}
+
+#sidebar{
+      background: rgb(37, 37, 37);
+      min-width: 270px;
+      max-width: 270px;
+      color: #fff;
+      transition: all 0.35s ease-in-out;
+}
+
+.main{
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
-}
-hr.h-color{
-      background: #eee;
-}
-
-.sidebar li.active{
-      background: #333;
-      border-radius: 8px;
+      min-width: 0;
+      overflow: hidden;
+      transition: all 0.35s ease-in-out;
+      width: 100%;
+      background: white;
 }
 
-.sidebar li.active a, .sidebar li a:hover{
-      color: black;
+/* Sidebar Elements Style */
+
+.sidebar-logo{
+      padding: 1.15rem;
 }
 
-.sidebar li a{
-      color: white;
+.sidebar-logo a{
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 600;
+}
+
+.sidebar-nav{
+      flex-grow: 1;
+      list-style: none;
+      margin-bottom: 0;
+      padding-left: 0;
+      margin-left: 0;
+}
+
+.sidebar-header {
+      color: #f1f1f1;
+      font-size: .75rem;
+      padding: 1.5rem 1.5rem .37rem;
+}
+
+a.sidebar-link{
+      padding: .625rem 1.625rem;
+      color: #e9ecef;
+      position: relative;
+      display: block;
+      font-size: 0.875rem;
 }

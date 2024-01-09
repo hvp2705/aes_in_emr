@@ -1,11 +1,11 @@
 {% extends "base.html" %} 
 {% block title %}Sign Up{% endblock %}
 
-{% block content %}
+{% block sidebar %}
 <link rel="stylesheet" href="../static/css/signup.css">
 <div class="center">
     <form method="POST">
-        <h3>Sign Up</h3>
+        <h3>Admin create account</h3>
         <div class="form-group">
             <label for="email">Email Address</label>
             <input
@@ -62,7 +62,7 @@
             <input type="radio" name="options" id="option2" value="patient"><label for="option2">Patient</label>
         <br>
         </div> -->
-        <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Create account</button>
     </form>
 </div>
 {% endblock %}
