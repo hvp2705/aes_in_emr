@@ -30,6 +30,7 @@
                                                 Dashboard
                                         </a>
                                 </li>
+                                {% if current_user.role.name == 'admin' %}
                                 <li class="sidebar-item">
                                         <a href="/doctor" class="sidebar-link">
                                                 <i class="fas fa-user-md pe-2"></i>
@@ -54,6 +55,20 @@
                                                 Create doctor account
                                         </a>
                                 </li>
+                                {% elif current_user.role.name == 'doctor' %}
+                                <li class="sidebar-item">
+                                        <a href="/medical-record" class="sidebar-link" id="medical_record">
+                                                <i class="fas fa-file-medical pe-2"></i>
+                                                Enter new record
+                                        </a>
+                                </li>
+                                <li class="sidebar-item">
+                                        <a href="/medical-record-view" class="sidebar-link" id="medical-record-view">
+                                                <i class="fas fa-database pe-2"></i></i>
+                                                View Existing Records
+                                        </a>
+                                </li>
+                                {% endif %}
                         </ul>
                         <ul class="list-unstyled px-2">
                                 <li class=""><a href="/logout" class="text-decoration-none" id="logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>

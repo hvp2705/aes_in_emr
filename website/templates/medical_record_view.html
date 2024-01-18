@@ -60,7 +60,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="patient_dob">Date of birth</label>
-                                                <input type="date" name="patient_dob" id="patient_dob" readonly>
+                                                <input type="date" name="patient_dob" id="patient_dob" value="{{row.patient_dob}}" readonly>
                                                 <label for="gender">Gender</label>
                                                 <input name="gender" id="gender" value="{{row.gender}}" readonly>
                                             </div>
@@ -108,14 +108,12 @@
                                                 <label for="drug_sensitive">Drug Sensitive</label>
                                                 <input type="text"class="form-control" name="drug_sensitive" id="drug_sensitive" value="{{row.drug_sensitive}}" readonly>
                                             </div>
-                                            {% endfor %}
-                                            <h2>C. Others Information</h2>
-                                            <div>
-                                                <label for="doctor_name">Doctor Name</label>
-                                                <input type="text" name="doctor_name" id="doctor_name">
-                                                <label for="doctor_phone">Doctor Phone</label>
-                                                <input type="tel" name="doctor_phone" id="doctor_phone">
+                                            <h2>C.Medical History</h2>
+                                            <div class="form-group">
+                                                <label for="medical_history">Medical Test Result</label>
+                                                <input type="text" class="form-control" name="medical_history" id="medical_history">
                                             </div>
+                                            {% endfor %}
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-primary">Decrypt</button>
