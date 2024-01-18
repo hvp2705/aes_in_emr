@@ -1,9 +1,6 @@
 from .. import db
 from flask_login import UserMixin
 #from datetime import datetime
-from .medicals_record import MedicalRecord
-from .patient import Patient
-from .doctor import Doctor
 #from .. import encrypt_data, decrypt_data
 
 # create table in database for assigning roles
@@ -11,10 +8,10 @@ from .doctor import Doctor
         #db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         #db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))  
 
-#class Role(db.Model):
-    #__tablename__ = 'role'
-    #id = db.Column("id", db.Integer, primary_key=True)
-    #name = db.Column(db.String(150))
+class Role(db.Model):
+    __tablename__ = 'role'
+    id = db.Column("id", db.Integer, primary_key=True)
+    name = db.Column(db.String(150))
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
@@ -23,9 +20,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
-    #date_registered = db.Column(db.DateTime, default=datetime.utcnow)
-    #roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     doctors = db.relationship('Doctor', backref='user', lazy='dynamic')
+    #date_registered = db.Column(db.DateTime, default=datetime.utcnow)
     
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
