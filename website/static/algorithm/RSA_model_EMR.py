@@ -41,17 +41,22 @@ class RSAEncryption:
         return decrypted
 
     def encoder(self, message):
+        block_size = 16  # Set the block size
         encoded_string = ""
-        for char in message:
-            encrypted_value = self.encrypt(ord(char))  # Encrypt each character
-            encoded_string += str(encrypted_value) + ","  # Append to string with comma delimiter
-        return encoded_string[:-1]
+        for i in range(0, len(message), block_size):
+            block = message[i:i+block_size]  # Get a block of characters
+            encrypted_block = self.encrypt(int.from_bytes(block.encode(), 'big'))  # Encrypt the block
+            encoded_string += str(encrypted_block) + ","  # Append to string with comma delimiter
+        return encoded_string
 
     def decoder(self, encoded):
+        block_size = 16  # Set the block size
         s = ''
-        for num in encoded:
-            decrypted = self.decrypt(int(num))
-            s += chr(decrypted)
+        encoded_blocks = encoded.split(",")  # Split the encoded string into blocks
+        for encoded_block in encoded_blocks:
+            decrypted_block = self.decrypt(int(encoded_block))
+            block = decrypted_block.to_bytes((decrypted_block.bit_length() + 7) // 8, 'big').decode()  # Convert decrypted block to string
+            s += block
         return s
 
 private_key = rsa.generate_private_key(
