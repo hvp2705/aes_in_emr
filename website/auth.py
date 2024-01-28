@@ -11,11 +11,10 @@ from .models.models import User
 from .models.patient import Patient
 from .models.doctor import Doctor
 from .models.medicals_record import MedicalRecord
-from .static.algorithm.AES_model_EMR import primefiller, pickrandomprime, setkeys, encrypt, decrypt, encoder, decoder
+from .static.algorithm.RSA_model_EMR import RSAEncryption
 auth = Blueprint('auth', __name__)
 
-# Generate a random 32 bytes key for AES-256
-key = secrets.token_bytes(32)
+rsa_encryption = RSAEncryption()
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -133,8 +132,10 @@ def doctor():
 
 @auth.route('/medical-record', methods=['GET', 'POST'])
 def medical_record():
-    primefiller()
-    setkeys()
+    rsa_encryption = RSAEncryption()
+    rsa_encryption.primefiller()
+    rsa_encryption.setkeys()
+
     if request.method == 'POST':
         blood_type = request.form.get('blood_type')
         blood_pressure = request.form.get('blood_pressure')
@@ -143,12 +144,12 @@ def medical_record():
         disease_history = request.form.get('disease_history')
         drug_sensitive = request.form.get('drug_sensitive')
 
-        encrypted_blood_type = encoder(blood_type)
-        encrypted_blood_pressure = encoder(blood_pressure)
-        encrypted_weight = encoder(weight)
-        encrypted_height = encoder(height)
-        encrypted_disease_history = encoder(disease_history)
-        encrypted_drug_sensitive = encoder(drug_sensitive)
+        encrypted_blood_type = rsa_encryption.encoder(blood_type)
+        encrypted_blood_pressure = rsa_encryption.encoder(blood_pressure)
+        encrypted_weight = rsa_encryption.encoder(weight)
+        encrypted_height = rsa_encryption.encoder(height)
+        encrypted_disease_history = rsa_encryption.encoder(disease_history)
+        encrypted_drug_sensitive = rsa_encryption.encoder(drug_sensitive)
 
         new_medical_record = MedicalRecord(blood_type=json.dumps(encrypted_blood_type),
                                     blood_pressure=json.dumps(encrypted_blood_pressure),
@@ -182,18 +183,17 @@ def medical_record():
         else:
             patient_dob = None  # Or set a default date
 
-        encrypted_address = encoder(address)
-        encrypted_phone = encoder(phone)
-        encrypted_email = encoder(email)
-        encrypted_social_security_number = encoder(social_security_number)
-        encrypted_health_insurance_number = encoder(health_insurance_number)
+        encrypted_address = rsa_encryption.encoder(address)
+        encrypted_email = rsa_encryption.encoder(email)
+        encrypted_social_security_number = rsa_encryption.encoder(social_security_number)
+        encrypted_health_insurance_number = rsa_encryption.encoder(health_insurance_number)
         
         #Patient table
         new_patient = Patient(patient_name=patient_name, 
                               patient_dob=patient_dob, 
                               gender=gender, 
                               address=json.dumps(encrypted_address), 
-                              phone=json.dumps(encrypted_phone), 
+                              phone=phone, 
                               email=json.dumps(encrypted_email), 
                               social_security_number=json.dumps(encrypted_social_security_number), 
                               health_insurance_number=json.dumps(encrypted_health_insurance_number), 
