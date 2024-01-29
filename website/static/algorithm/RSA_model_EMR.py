@@ -1,6 +1,6 @@
 from sympy import primerange
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives import serialization, padding, hashes
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import hashes
 import random
 import math
 
@@ -30,22 +30,42 @@ class RSAEncryption:
         d = math.gcd(fi, prime2 - 1) + 1
         self.private_key = d
 
-    def encrypt(self, message):
-        e = self.public_key
-        encrypted_text = pow(message, e, self.n)
-        return encrypted_text
+    def generate_keys(self):
+        self.private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=2048
+        )
+        self.public_key = self.private_key.public_key()
 
-    def decrypt(self, encrypted_text):
-        d = self.private_key
-        decrypted = pow(encrypted_text, d, self.n)
-        return decrypted
+    def encrypt(self, message):
+        ciphertext = self.public_key.encrypt(
+            message.encode(),
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return ciphertext
+
+    def decrypt(self, ciphertext):
+        plaintext = self.private_key.decrypt(
+            ciphertext,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return plaintext.decode()
 
     def encoder(self, message):
         block_size = 16  # Set the block size
         encoded_string = ""
         for i in range(0, len(message), block_size):
-            block = message[i:i+block_size]  # Get a block of characters
-            encrypted_block = self.encrypt(int.from_bytes(block.encode(), 'big'))  # Encrypt the block
+            block = message[i:i + block_size]  # Get a block of characters
+            block_bytes = block.encode()  # Convert block to bytes
+            encrypted_block = self.encrypt(int.from_bytes(block_bytes, 'big'))  # Encrypt the block
             encoded_string += str(encrypted_block) + ","  # Append to string with comma delimiter
         return encoded_string
 
@@ -59,30 +79,3 @@ class RSAEncryption:
             s += block
         return s
 
-private_key = rsa.generate_private_key(
-    public_exponent=65537,
-    key_size=2048
-)
-public_key = private_key.public_key()
-
-def encrypt(message):
-    encrypted_text = public_key.encrypt(
-        message.encode(),
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA256()),
-            algorithm=hashes.SHA256(),
-            label=None
-        )
-    )
-    return encrypted_text
-
-def decrypt(encrypted_text):
-    decrypted = private_key.decrypt(
-        encrypted_text,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA256()),
-            algorithm=hashes.SHA256(),
-            label=None
-        )
-    )
-    return decrypted.decode()

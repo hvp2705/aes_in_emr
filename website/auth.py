@@ -12,6 +12,7 @@ from .models.patient import Patient
 from .models.doctor import Doctor
 from .models.medicals_record import MedicalRecord
 from .static.algorithm.RSA_model_EMR import RSAEncryption
+from sqlalchemy.orm import joinedload
 auth = Blueprint('auth', __name__)
 
 rsa_encryption = RSAEncryption()
@@ -135,6 +136,7 @@ def medical_record():
     rsa_encryption = RSAEncryption()
     rsa_encryption.primefiller()
     rsa_encryption.setkeys()
+    rsa_encryption.generate_keys()
 
     if request.method == 'POST':
         blood_type = request.form.get('blood_type')
@@ -144,18 +146,18 @@ def medical_record():
         disease_history = request.form.get('disease_history')
         drug_sensitive = request.form.get('drug_sensitive')
 
-        encrypted_blood_type = rsa_encryption.encoder(blood_type)
-        encrypted_blood_pressure = rsa_encryption.encoder(blood_pressure)
-        encrypted_weight = rsa_encryption.encoder(weight)
-        encrypted_height = rsa_encryption.encoder(height)
-        encrypted_disease_history = rsa_encryption.encoder(disease_history)
-        encrypted_drug_sensitive = rsa_encryption.encoder(drug_sensitive)
+        encrypted_blood_type = rsa_encryption.encrypt(blood_type)
+        encrypted_blood_pressure = rsa_encryption.encrypt(blood_pressure)
+        encrypted_weight = rsa_encryption.encrypt(weight)
+        encrypted_height = rsa_encryption.encrypt(height)
+        encrypted_disease_history = rsa_encryption.encrypt(disease_history)
+        encrypted_drug_sensitive = rsa_encryption.encrypt(drug_sensitive)
 
-        new_medical_record = MedicalRecord(blood_type=json.dumps(encrypted_blood_type),
-                                    blood_pressure=json.dumps(encrypted_blood_pressure),
-                                    weight=encrypted_weight,height=json.dumps(encrypted_height),                                 
-                                    disease_history=json.dumps(encrypted_disease_history),
-                                    drug_sensitive=json.dumps(encrypted_drug_sensitive))
+        new_medical_record = MedicalRecord(blood_type=encrypted_blood_type,
+                                    blood_pressure=encrypted_blood_pressure,
+                                    weight=encrypted_weight,height=encrypted_height,                                 
+                                    disease_history=encrypted_disease_history,
+                                    drug_sensitive=encrypted_drug_sensitive)
         db.session.add(new_medical_record)
 
         """new_medical_record = MedicalRecord(blood_type=blood_type, 
@@ -183,20 +185,20 @@ def medical_record():
         else:
             patient_dob = None  # Or set a default date
 
-        encrypted_address = rsa_encryption.encoder(address)
-        encrypted_email = rsa_encryption.encoder(email)
-        encrypted_social_security_number = rsa_encryption.encoder(social_security_number)
-        encrypted_health_insurance_number = rsa_encryption.encoder(health_insurance_number)
+        encrypted_address = rsa_encryption.encrypt(address)
+        encrypted_email = rsa_encryption.encrypt(email)
+        encrypted_social_security_number = rsa_encryption.encrypt(social_security_number)
+        encrypted_health_insurance_number = rsa_encryption.encrypt(health_insurance_number)
         
         #Patient table
         new_patient = Patient(patient_name=patient_name, 
                               patient_dob=patient_dob, 
                               gender=gender, 
-                              address=json.dumps(encrypted_address), 
+                              address=encrypted_address, 
                               phone=phone, 
-                              email=json.dumps(encrypted_email), 
-                              social_security_number=json.dumps(encrypted_social_security_number), 
-                              health_insurance_number=json.dumps(encrypted_health_insurance_number), 
+                              email=encrypted_email, 
+                              social_security_number=encrypted_social_security_number, 
+                              health_insurance_number=encrypted_health_insurance_number, 
                               marital_status=marital_status, 
                               occupation=occupation)
         db.session.add(new_patient)
